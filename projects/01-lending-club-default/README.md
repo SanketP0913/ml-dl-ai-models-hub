@@ -21,12 +21,16 @@ python src/eda.py             # 3. Explore: statistical tests + charts -> report
 python src/train.py           # 4. Model: train, compare, test -> reports/ and models/
 ```
 
+Prefer a step-by-step walkthrough with charts inline? Open [`notebooks/01_lending_club_walkthrough.ipynb`](notebooks/01_lending_club_walkthrough.ipynb). It runs the same code as the scripts, one step per cell, with explanations.
+
 The whole pipeline takes a few minutes on a laptop. The data is not stored in git; `download_data.py` rebuilds it.
 
 ## Project structure
 
 ```
 01-lending-club-default/
+├── notebooks/
+│   └── 01_lending_club_walkthrough.ipynb   # the whole project, step by step
 ├── src/
 │   ├── config.py          # paths, which loans we study, feature lists
 │   ├── download_data.py   # Kaggle download
