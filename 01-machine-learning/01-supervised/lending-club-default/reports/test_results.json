@@ -1,0 +1,41 @@
+{
+  "winner": "logistic_regression",
+  "winner_params": {
+    "C": 0.1
+  },
+  "threshold_max_f1": 0.1508,
+  "train_rows": 306462,
+  "test_rows": 283026,
+  "test_metrics_threshold_0.5": {
+    "threshold": 0.5,
+    "roc_auc": 0.6915,
+    "pr_auc": 0.2651,
+    "f1": 0.0021,
+    "precision": 0.3761,
+    "recall": 0.001,
+    "accuracy": 0.851,
+    "brier": 0.1202
+  },
+  "test_metrics_tuned_threshold": {
+    "threshold": 0.1508,
+    "roc_auc": 0.6915,
+    "pr_auc": 0.2651,
+    "f1": 0.3442,
+    "precision": 0.2564,
+    "recall": 0.5237,
+    "accuracy": 0.703,
+    "brier": 0.1202
+  },
+  "top_features": {
+    "loan_amnt": 0.0557,
+    "installment": 0.046,
+    "installment_to_income": 0.0238,
+    "grade": 0.018,
+    "int_rate": 0.012,
+    "fico": 0.0112,
+    "dti": 0.007,
+    "emp_years": 0.0044,
+    "open_acc": 0.0044,
+    "inq_last_6mths": 0.0034
+  }
+}

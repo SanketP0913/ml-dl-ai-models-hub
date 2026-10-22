@@ -6,14 +6,14 @@
 
 **Models compared:** Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, plus a no-skill baseline.
 
-**Result:** _Filled in from the first full run (see [Results](#6-results))._
+**Result:** Logistic regression wins. On 2015 loans it never saw, it reaches **ROC AUC 0.69**, and the riskiest 20% of loans it flags contain **38% of all defaults** (see [Results](#6-results)).
 
 ---
 
 ## How to run
 
 ```bash
-cd projects/01-lending-club-default
+cd 01-machine-learning/01-supervised/lending-club-default
 pip install -r requirements.txt
 python src/download_data.py   # 1. Extract: download from Kaggle (needs ~/.kaggle/kaggle.json)
 python src/etl.py             # 2. Transform + Load: clean data -> data/processed/
@@ -120,19 +120,46 @@ Every prediction falls into one of four groups: **TP** (predicted default, did d
 
 ## 5. Choosing the winner
 
-The model with the highest cross-validated ROC AUC wins. If two models are within about 0.005 AUC, the simpler and more interpretable one is the better business choice. Logistic regression is easier to explain to credit committees and regulators.
+The model with the highest cross-validated ROC AUC wins. If two models are within about 0.005 AUC, the simpler and more interpreta## 6. Results
 
-## 6. Results
+From the run on 2026-10-22 (all numbers are in `reports/`).
 
-_To be filled from the first full run of `python src/train.py`._
+**Cross-validated comparison** (training years 2012-2014, 150,000-loan sample). F1, precision and recall are at each model's own F1-maximising threshold (about 0.15).
 
-| Model | CV ROC AUC | CV PR AUC | CV F1 | Brier |
-|---|---|---|---|---|
-| Baseline | | | | |
-| Logistic Regression | | | | |
-| Decision Tree | | | | |
-| Random Forest | | | | |
-| Gradient Boosting | | | | |
+| Model | CV ROC AUC | CV PR AUC | CV F1 | Precision | Recall | Brier |
+|---|---|---|---|---|---|---|
+| Baseline (predict the average) | 0.500 | 0.132 | 0.000 | 0.000 | 0.000 | 0.1148 |
+| **Logistic Regression** | **0.676** | **0.232** | **0.311** | 0.216 | 0.558 | **0.1096** |
+| Decision Tree | 0.658 | 0.213 | 0.297 | 0.204 | 0.549 | 0.1108 |
+| Random Forest | 0.674 | 0.230 | 0.310 | 0.215 | 0.557 | 0.1098 |
+| Gradient Boosting | 0.675 | 0.231 | 0.310 | 0.217 | 0.545 | 0.1097 |
+
+**Winner: Logistic Regression** (C = 0.1). It has the best ROC AUC, PR AUC and Brier score. Random forest and gradient boosting are within 0.002 AUC, so the extra complexity buys nothing here, and logistic regression is the easiest to explain to a credit committee. With only about 25 application-time features, most of the signal is close to linear, so the tree ensembles have little left to find.
+
+**On the 2015 test set** (283,026 loans, seen once):
+
+| Threshold | ROC AUC | F1 | Precision | Recall | Accuracy |
+|---|---|---|---|---|---|
+| 0.50 (default) | 0.692 | 0.002 | 0.376 | 0.001 | 0.851 |
+| **0.15 (tuned on CV)** | 0.692 | **0.344** | 0.256 | **0.524** | 0.703 |
+
+This is the threshold lesson in one table. At 0.5 the model flags almost nobody and catches 0.1% of defaults, yet accuracy looks good (85%). At the tuned 0.15 it catches 52% of defaults, and about 1 in 4 flagged loans really defaults (against 1 in 7 on average). Test ROC AUC (0.69) is slightly higher than CV (0.68), so the model holds up on a new year.
+
+**Risk deciles (2015 loans sorted by predicted risk):**
+
+| Decile | Predicted PD | Actual default rate | Defaults caught so far |
+|---|---|---|---|
+| 1 (riskiest 10%) | 28.3% | 31.7% | 21% |
+| 2 | 20.1% | 25.0% | **38%** |
+| 3 | 16.5% | 20.5% | 52% |
+| 5 | 12.0% | 14.6% | 74% |
+| 10 (safest 10%) | 3.6% | 3.2% | 100% |
+
+The riskiest tenth of loans defaults 10 times as often as the safest tenth. Predicted PD tracks the actual rate in every decile (for example 28% predicted vs 32% actual at the top), with a slight under-prediction because 2015 was a worse year than 2012-2014.
+
+**Top features** (drop in test ROC AUC when the column is shuffled): loan amount, installment, installment-to-income, grade, interest rate, FICO, DTI. Loan amount and installment rank highest *together*: for a 36-month loan, the installment is fixed by the amount and the interest rate, so the pair carries Lending Club's own rate (its risk price). Shuffling either one breaks that link.
+
+Charts: `reports/figures/roc_pr_curves.png`, `confusion_matrices.png`, `risk_deciles.png`, `feature_importance.png`.
 
 **Winner on the 2015 test set:**
 

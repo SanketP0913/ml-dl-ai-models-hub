@@ -21,10 +21,20 @@ Protocol (and why):
 Run from the project folder:  python src/train.py
 """
 import json
+import os
 import time
+import warnings
 
-import joblib
-import matplotlib
+# numpy 2.0 on macOS (Apple Accelerate) prints false "divide by zero /
+# overflow encountered in matmul" warnings; the results are correct. Silence
+# them here and, through PYTHONWARNINGS, in the parallel worker processes.
+_MATMUL_NOISE = [f"{kind} encountered in matmul" for kind in ("divide by zero", "overflow", "invalid value")]
+os.environ["PYTHONWARNINGS"] = ",".join(f"ignore:{m}:RuntimeWarning" for m in _MATMUL_NOISE)
+for _m in _MATMUL_NOISE:
+    warnings.filterwarnings("ignore", message=_m, category=RuntimeWarning)
+
+import joblib  # noqa: E402
+import matplotlib  # noqa: E402
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
@@ -56,9 +66,10 @@ def preprocessor(scale: bool) -> ColumnTransformer:
     if scale:
         numeric_steps.append(("scale", StandardScaler()))
     return ColumnTransformer([
-        ("cat", OneHotEncoder(handle_unknown="infrequent_if_exist", min_frequency=100), CATEGORICAL),
+        ("cat", OneHotEncoder(handle_unknown="infrequent_if_exist", min_frequency=100,
+                              sparse_output=False), CATEGORICAL),
         ("num", Pipeline(numeric_steps), NUMERIC),
-    ])
+    ], sparse_threshold=0)  # dense output: gradient boosting rejects sparse input
 
 
 def candidates() -> dict:

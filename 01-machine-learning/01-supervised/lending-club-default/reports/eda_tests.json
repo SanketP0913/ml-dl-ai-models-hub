@@ -1,0 +1,121 @@
+{
+  "rows": 589488,
+  "default_rate": 0.1403,
+  "categorical": {
+    "grade": {
+      "chi2": 22279.4,
+      "p_value": 0.0,
+      "cramers_v": 0.194,
+      "default_rate_by_group": {
+        "A": 0.054,
+        "B": 0.112,
+        "C": 0.18,
+        "D": 0.236,
+        "E": 0.289,
+        "F": 0.331,
+        "G": 0.402
+      }
+    },
+    "home_ownership": {
+      "chi2": 2948.5,
+      "p_value": 0.0,
+      "cramers_v": 0.071,
+      "default_rate_by_group": {
+        "MORTGAGE": 0.115,
+        "OTHER": 0.169,
+        "OWN": 0.15,
+        "RENT": 0.166
+      }
+    },
+    "verification_status": {
+      "chi2": 1793.2,
+      "p_value": 0.0,
+      "cramers_v": 0.055,
+      "default_rate_by_group": {
+        "Not Verified": 0.116,
+        "Source Verified": 0.143,
+        "Verified": 0.164
+      }
+    },
+    "purpose": {
+      "chi2": 1598.1,
+      "p_value": 0.0,
+      "cramers_v": 0.052,
+      "default_rate_by_group": {
+        "car": 0.119,
+        "credit_card": 0.117,
+        "debt_consolidation": 0.147,
+        "educational": 0.0,
+        "home_improvement": 0.125,
+        "house": 0.183,
+        "major_purchase": 0.131,
+        "medical": 0.173,
+        "moving": 0.195,
+        "other": 0.164,
+        "renewable_energy": 0.203,
+        "small_business": 0.225,
+        "vacation": 0.159,
+        "wedding": 0.127
+      }
+    },
+    "application_type": {
+      "chi2": 2.8,
+      "p_value": 0.0952,
+      "cramers_v": 0.002,
+      "default_rate_by_group": {
+        "Individual": 0.14,
+        "Joint App": 0.18
+      }
+    }
+  },
+  "numeric": {
+    "int_rate": {
+      "median_defaulted": 13.67,
+      "median_paid": 11.67,
+      "p_value": 0.0,
+      "effect_size_rank_biserial": 0.312
+    },
+    "fico": {
+      "median_defaulted": 682.0,
+      "median_paid": 692.0,
+      "p_value": 0.0,
+      "effect_size_rank_biserial": -0.199
+    },
+    "dti": {
+      "median_defaulted": 19.23,
+      "median_paid": 16.94,
+      "p_value": 0.0,
+      "effect_size_rank_biserial": 0.134
+    },
+    "annual_inc": {
+      "median_defaulted": 54400.0,
+      "median_paid": 62000.0,
+      "p_value": 0.0,
+      "effect_size_rank_biserial": -0.153
+    },
+    "revol_util": {
+      "median_defaulted": 57.1,
+      "median_paid": 54.1,
+      "p_value": 3.09e-203,
+      "effect_size_rank_biserial": 0.066
+    },
+    "loan_to_income": {
+      "median_defaulted": 0.2,
+      "median_paid": 0.179,
+      "p_value": 0.0,
+      "effect_size_rank_biserial": 0.107
+    },
+    "inq_last_6mths": {
+      "median_defaulted": 1.0,
+      "median_paid": 0.0,
+      "p_value": 0.0,
+      "effect_size_rank_biserial": 0.1
+    },
+    "credit_history_years": {
+      "median_defaulted": 13.916,
+      "median_paid": 14.831,
+      "p_value": 1e-303,
+      "effect_size_rank_biserial": -0.081
+    }
+  }
+}

@@ -1,29 +1,37 @@
 # ML · DL · AI Models Hub
 
-End-to-end machine learning projects on real, large datasets. Each project runs the full workflow a data scientist does at work:
+A map of Artificial Intelligence, built one model at a time. The repo follows the AI family tree: **Machine Learning** and **Deep Learning** are the two main branches, each branch is split by type of learning, and every model gets its own folder with a real dataset, a runnable notebook and a README that explains it.
 
-**ETL → data cleaning → EDA with statistical tests → train 3 to 4 models → compare with cross-validation → choose the best → explain the result.**
-
-Every project has its own README that explains what was done to the data, why each model was chosen, and how each metric (ROC AUC, F1, precision, recall and more) is calculated and what it means.
-
-## Projects
-
-| # | Project | Domain | Data | Models compared | Best result |
-|---|---|---|---|---|---|
-| 1 | [Loan default at approval time](projects/01-lending-club-default) | Credit risk | Lending Club, 2.26M loans | Logistic Regression, Decision Tree, Random Forest, Gradient Boosting | _in progress_ |
-
-## How every project is organised
+## Structure
 
 ```
-projects/NN-name/
-├── README.md          # question, data work, model choice, metrics, results
-├── requirements.txt
-├── src/               # download_data.py → etl.py → eda.py → train.py
-├── reports/           # metrics (JSON/CSV) and figures
-└── data/, models/     # rebuilt by the scripts, not stored in git
+Artificial Intelligence
+├── 01-machine-learning/
+│   ├── 01-supervised/         linear & logistic regression, decision tree, random forest, SVM, KNN, naive Bayes, XGBoost
+│   ├── 02-unsupervised/       k-means, hierarchical clustering, DBSCAN, PCA, Gaussian mixture
+│   ├── 03-semi-supervised/    self-training, label propagation
+│   ├── 04-reinforcement/      Q-learning, SARSA, deep Q-network
+│   └── 05-online-learning/    online SGD, passive-aggressive, Hoeffding tree
+└── 02-deep-learning/
+    ├── 01-cnn/                LeNet, VGG, ResNet
+    ├── 02-rnn/                simple RNN
+    ├── 03-lstm/               text sentiment, time series
+    ├── 04-gru/                text classification
+    ├── 05-transformer/        from scratch, BERT fine-tuning
+    └── 06-autoencoder/        basic, denoising, VAE
 ```
 
-Data is never committed. Each project ships a download script, so anyone can rebuild the results from scratch.
+## What is inside every model folder
+
+- `README.md`: what the model is, which dataset it uses, why it fits, and how the results are measured (accuracy, F1, ROC AUC, RMSE and so on)
+- `notebook.ipynb` or `model.py`: runs the model end to end
+- `data/`: rebuilt by a download step, never stored in git
+
+## Progress
+
+| Model | Branch | Dataset | Status |
+|---|---|---|---|
+| [Loan default at approval time](01-machine-learning/01-supervised/lending-club-default) | Supervised | Lending Club, 2.26M loans | Done: Logistic Regression best, test ROC AUC 0.69 |
 
 ## Author
 
